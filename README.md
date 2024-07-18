@@ -30,10 +30,10 @@ O desafio consiste em criar uma aplicação para o cadastro de alunos conforme o
 A seguir, são apresentados alguns mockups de interface como um guia para a criação do front-end. Fique à vontade para usar sua criatividade na criação do front-end.
 
 - Listagem de Alunos
-![Listagem de Alunos](/mockups/studants_list.png)
+![Listagem de Alunos](https://raw.githubusercontent.com/grupo-a/challenge-full-stack-web/master/mockups/studants_list.png)
 
 - Criar/Editar Aluno
-![Listagem de Alunos](/mockups/studants_save.png)
+![Listagem de Alunos](https://raw.githubusercontent.com/grupo-a/challenge-full-stack-web/master/mockups/studants_save.png)
 
 ## Histórias do Usuário
 
