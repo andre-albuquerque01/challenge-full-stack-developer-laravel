@@ -22,8 +22,8 @@ class StudentService
     public function store(array $data)
     {
         try {
-            $cpf = preg_replace('/[^0-9]/', '', $data["cpf"]);
-            $data["cpf"] = substr($cpf, 0, 3) . '.' . substr($cpf, 3, 3) . '.' . substr($cpf, 6, 3) . '-' . substr($cpf, 9, 2);
+            // $cpf = preg_replace('/[^0-9]/', '', $data["cpf"]);
+            // $data["cpf"] = substr($cpf, 0, 3) . '.' . substr($cpf, 3, 3) . '.' . substr($cpf, 6, 3) . '-' . substr($cpf, 9, 2);
             Student::create($data);
             return new GeneralResource(['message' => 'success']);
         } catch (\Exception $e) {
@@ -31,10 +31,10 @@ class StudentService
         }
     }
 
-    public function show(int $id)
+    public function show(int $ra)
     {
         try {
-            $student = Student::findOrFail($id)->first();
+            $student = Student::where('ra', $ra)->first();
             if (!$student) throw new GeneralException('Student not found', 404);
             return new StudentResource($student);
         } catch (\Exception $e) {
@@ -42,10 +42,10 @@ class StudentService
         }
     }
 
-    public function update(array $data, int $id)
+    public function update(array $data, int $ra)
     {
         try {
-            $student = Student::findOrFail($id)->first();
+            $student = Student::where('ra', $ra)->first();
             if (!$student) throw new GeneralException('Student not found', 404);
             $student->update($data);
             return new GeneralResource(['message' => 'success']);
@@ -54,10 +54,10 @@ class StudentService
         }
     }
 
-    public function destroy(int $id)
+    public function destroy(int $ra)
     {
         try {
-            $student = Student::findOrFail($id)->first();
+            $student = Student::where('ra', $ra)->first();
             if (!$student) throw new GeneralException('Student not found', 404);
             $student->delete();
             return new GeneralResource(['message' => 'success']);
