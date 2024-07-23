@@ -12,7 +12,11 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/', request.url))
   }
 
-  if (authentication && request.nextUrl.pathname.endsWith('/')) {
+  if (
+    authentication &&
+    request.nextUrl.pathname.endsWith('/') &&
+    request.nextUrl.pathname.startsWith('user/login')
+  ) {
     return NextResponse.redirect(new URL('/dashboard', request.url))
   }
   return NextResponse.next()
