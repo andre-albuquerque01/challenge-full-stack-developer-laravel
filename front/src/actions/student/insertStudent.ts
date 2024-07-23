@@ -4,7 +4,6 @@ import ApiAction from '@/functions/data/apiAction'
 import { RevalidateTag } from '@/functions/data/revalidateTag'
 import apiError from '@/functions/error/apiErro'
 import { cookies } from 'next/headers'
-import { redirect } from 'next/navigation'
 
 export async function InsertStudent(
   state: { ok: boolean; error: string; data: null },
@@ -13,8 +12,9 @@ export async function InsertStudent(
   const name = request.get('name') as string | null
   const email = request.get('email') as string | null
   const cpf = request.get('cpf') as string | null
+  const ra = request.get('ra') as string | null
   try {
-    if (!name || !email || !cpf) {
+    if (!name || !email || !cpf || !ra) {
       throw new Error('Preenchas os dados!')
     }
 
@@ -33,16 +33,14 @@ export async function InsertStudent(
 
     const data = await response.json()
 
-    const message =
-      data && data.data && typeof data.data.message === 'string'
-        ? data.data.message
-        : JSON.stringify(data?.data?.message || '')
+    if (data.message === 'The ra has already been taken.')
+      throw new Error('O registro acadêmico já está em uso!')
+    if (data.message === 'The name field must be at least 4 characters.')
+      throw new Error('O campo deverá ter mais de 4 caracteres.')
 
-    if (message && message.includes('The email has already been taken.'))
-      throw new Error('E-mail já cadastrado!')
+    RevalidateTag('student')
+    return { data: null, error: '', ok: true }
   } catch (error) {
     return apiError(error)
   }
-  RevalidateTag('user')
-  redirect('/dashboard')
 }
