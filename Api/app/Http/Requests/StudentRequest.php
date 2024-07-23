@@ -23,7 +23,8 @@ class StudentRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            "name" => ["required", "string", "min:4", "max:255"],
+            "name" => ["required", "string", "min:4", "max:255", "regex:/^[^<>]*$/"],
+            "ra" => ["required", "min:2", "max:255", "unique:students,ra", "regex:/^[^<>]*$/"],
             "email" => [
                 "required",
                 "email",
@@ -46,6 +47,7 @@ class StudentRequest extends FormRequest
                 "min:2",
             ];
             $rules["cpf"] = ["nullable"];
+            $rules["ra"] = ["nullable"];
         }
         return $rules;
     }
