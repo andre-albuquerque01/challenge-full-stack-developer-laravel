@@ -27,6 +27,8 @@ export async function Login(
 
     const data = await response.json()
 
+    if (data.data.error === 'Unauthorized')
+      throw new Error('E-mail ou senha inválida!')
     const message =
       data && data.data && typeof data.data.message === 'string'
         ? data.data.message
