@@ -31,7 +31,7 @@ class StudentService
         }
     }
 
-    public function show(int $ra)
+    public function show(string $ra)
     {
         try {
             $student = Student::where('ra', $ra)->first();
@@ -42,7 +42,26 @@ class StudentService
         }
     }
 
-    public function update(array $data, int $ra)
+    public function search(string $title)
+    {
+        try {
+            $students = Student::where('name', 'LIKE', '%' . $title . '%')
+                ->orWhere('ra', 'LIKE', '%' . $title . '%')
+                ->orWhere('cpf', 'LIKE', '%' . $title . '%')
+                ->get();
+
+            if ($students->isEmpty()) {
+                throw new GeneralException('Student not found', 404);
+            }
+
+            return StudentResource::collection($students);
+        } catch (\Exception $e) {
+            throw new GeneralException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+
+    public function update(array $data, string $ra)
     {
         try {
             $student = Student::where('ra', $ra)->first();
@@ -54,7 +73,7 @@ class StudentService
         }
     }
 
-    public function destroy(int $ra)
+    public function destroy(string $ra)
     {
         try {
             $student = Student::where('ra', $ra)->first();
