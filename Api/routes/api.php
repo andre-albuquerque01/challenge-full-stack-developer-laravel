@@ -21,5 +21,6 @@ Route::prefix('v1')->group(function () {
         Route::put('user', [UserController::class, 'update']);
         Route::delete('user', [UserController::class, 'destroy']);
         Route::apiResource('student', StudentController::class);
+        Route::get('student/search/{title}', [StudentController::class, 'search']);
     });
 });
