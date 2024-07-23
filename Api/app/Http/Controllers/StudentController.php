@@ -50,6 +50,14 @@ class StudentController extends Controller
             throw new GeneralException('', $e->getCode(), $e);
         }
     }
+    public function search(string $title)
+    {
+        try {
+            return $this->studendService->search($title);
+        } catch (\Exception $e) {
+            throw new GeneralException('', $e->getCode(), $e);
+        }
+    }
 
     /**
      * Update the specified resource in storage.
