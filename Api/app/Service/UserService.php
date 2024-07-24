@@ -40,7 +40,8 @@ class UserService
     {
         try {
             $user = auth()->user()->idUser;
-            $user->update($data);
+            $data['password'] =  auth()->user()->password;
+            User::where('idUser', $user)->update($data);
             return new GeneralResource(['message' => 'success']);
         } catch (\Exception $e) {
             throw new GeneralException('', $e->getCode(), $e);
