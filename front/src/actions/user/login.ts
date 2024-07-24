@@ -57,7 +57,9 @@ export async function Login(
     }
 
     if (!response.ok) throw new Error('Usuário ou senha inválido!')
-
+    if (response.status === 403) {
+      throw new Error('E-mail ou senha inválida!')
+    }
     cookiesStore.set('token', data.data.token, {
       expires: Date.now() + 2 * 60 * 60 * 1000,
       secure: true,
