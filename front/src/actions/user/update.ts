@@ -1,6 +1,7 @@
 'use server'
 
 import ApiAction from '@/functions/data/apiAction'
+import { RevalidateTag } from '@/functions/data/revalidateTag'
 import { cookies } from 'next/headers'
 
 export async function UpdateUser(reqBody: object) {
@@ -16,7 +17,12 @@ export async function UpdateUser(reqBody: object) {
     })
 
     const data = await response.json()
-    if (!response.ok) return data
+
+    if (data.data.message === 'The email has already been taken.')
+      return 'E-mail já cadastrado!'
+
+    if (!response.ok) return 'Senha incorreta.'
+    RevalidateTag('user')
     return true
   } catch (error) {
     return 'Houver error'
